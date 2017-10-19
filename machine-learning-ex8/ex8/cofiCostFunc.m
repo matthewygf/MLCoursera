@@ -43,13 +43,17 @@ Theta_grad = zeros(size(Theta));
 temp = ((X * Theta') - Y) .^ 2;
 
 % sum num of movies and sum num of users where movie has been rated.
-J = 1/2 * sum(sum(temp(R == 1)));
+leftTerm = 1/2 * sum(sum(temp(R == 1)));
+regularizedTheta = lambda / 2 * (sum(sum(Theta  .^ 2)));
+reguarizedX = lambda / 2 * (sum(sum(X .^ 2)));
+
+J = leftTerm + regularizedTheta + reguarizedX;
 
 
+hypothesis = (X * Theta') - Y;
 
-
-
-
+X_grad = (hypothesis .* R * Theta) + (lambda * X);
+Theta_grad = ((hypothesis .* R)' * X) + (lambda * Theta);
 
 
 
